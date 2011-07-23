@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Infinite Scroll
-Version: 2.0b2.110716
+Version: 2.0b2.110723
 Plugin URI: http://www.infinite-scroll.com
 Description: Automatically loads the next page of posts into the bottom of the initial page. 
 Author: Beaver6813, dirkhaim, Paul Irish
 Author URI: http://www.infinite-scroll.com
 License   : http://creativecommons.org/licenses/GPL/2.0/
 */
-define('infscr_version'		,	'2.0b2.110716');
+define('infscr_version'		,	'2.0b2.110723');
 // constants for enables/disabled
 define('infscr_enabled'		, 'enabled');
 define('infscr_disabled'	, 'disabled');
@@ -41,14 +41,14 @@ add_option(key_infscr_viewed_options 	, false																	, 'Ever Viewed Opt
 add_option(key_infscr_debug 			, 0																		, 'Debug Mode');
 
 // adding actions
-add_action('template_redirect'	, 'wp_inf_scroll_pre_init');
+add_action('template_redirect'	, 'wp_inf_scroll_init');
 add_action('admin_menu'			, 'add_wp_inf_scroll_options_page');
 add_action("wp"					, 'wp_inf_scroll_404');	
 
 if ( get_option(key_infscr_state) == infscr_state_default && get_option(key_infscr_viewed_options) == false && !isset($_POST['submit']) )
 	add_action('admin_notices', 'wp_inf_scroll_setup_warning');	
 
-function wp_inf_scroll_pre_init($wp)
+function wp_inf_scroll_jquery()
 	{
 	global $wp_scripts;
 	//Now, some of the versions of jQuery bundled with Wordpress are monolithic.
@@ -68,9 +68,9 @@ function wp_inf_scroll_pre_init($wp)
 			wp_register_script( 'jquery', plugins_url('infinite-scroll')."/js/jquery-1.6.2.js", array(), '1.6.2', false );
 		else
 			wp_register_script( 'jquery', plugins_url('infinite-scroll')."/js/jquery-1.6.2.min.js", array(), '1.6.2', false );
-		wp_enqueue_script( 'jquery' );	
 		}
-	wp_inf_scroll_init();
+	wp_enqueue_script( 'jquery' );
+	return true;	
 	}
 /*
 Because recently (3.0) WP doesn't always throw a 404 when posts aren't found.
@@ -84,7 +84,6 @@ function wp_inf_scroll_404($wp)
 		header("Status: 404 Not Found");
 		}
 	}
-
 function add_wp_inf_scroll_options_page() 
 	{
 	global $wpdb;
@@ -150,10 +149,10 @@ function wp_inf_scroll_get_pagenum_link()
 	}
 function wp_inf_scroll_init()
 	{
-	global $user_level;
+	global $user_level,$wp_query;
 	$load_infinite_scroll = true;	
 	/* Lets start our pre-flight checks */
-	if (get_option(key_infscr_state) == infscr_disabled || (is_page() || is_single()) || (get_option(key_infscr_state) == infscr_maint && $user_level >= 8) || (get_option(key_infscr_state) == infscr_config && $user_level <= 8) || (!have_posts()))
+	if (get_option(key_infscr_state) == infscr_disabled || is_page() || is_single() || (get_option(key_infscr_state) == infscr_maint && $user_level >= 8) || (get_option(key_infscr_state) == infscr_config && $user_level <= 8) || !have_posts())
 		$load_infinite_scroll = false;
 		
 	/* Pre-flight checks complete. Are we good to fly? */	
@@ -167,6 +166,7 @@ function wp_inf_scroll_init()
 		$max_page 			= $wp_query->max_num_pages;
 		if ( !$max_page || $max_page >= $nextpage )
 			{
+			wp_inf_scroll_jquery();
 			//We have to pass pathInfo to the script as the script can't determine the path itself. 
 			//We have to introduce some form of validation, so we can validate/sign the pathInfo we create.
 			$pathParse			= wp_inf_scroll_get_pagenum_link();
@@ -190,11 +190,11 @@ function wp_inf_scroll_options_page()
 		$infscr_state = $_POST[key_infscr_state];
 		if ($infscr_state != infscr_enabled && $infscr_state != infscr_disabled && $infscr_state != infscr_maint && $infscr_state != infscr_config)
 			$infscr_state = infscr_state_default;
-		update_option(key_infscr_state, $infscr_state);
+		update_option(key_infscr_state, esc_js($infscr_state));
 
 		// update debug
 		$infscr_debug = $_POST[key_infscr_debug];
-		update_option(key_infscr_debug, $infscr_debug);
+		update_option(key_infscr_debug, esc_js($infscr_debug));
 		
 		// update js calls field
 		$infscr_js_calls = $_POST[key_infscr_js_calls];
@@ -230,19 +230,19 @@ function wp_inf_scroll_options_page()
 
 		// update content selector
 		$content_selector = $_POST[key_infscr_content_selector];
-		update_option(key_infscr_content_selector, $content_selector);
+		update_option(key_infscr_content_selector, esc_js($content_selector));
 
 		// update the navigation selector
 		$navigation_selector = $_POST[key_infscr_nav_selector];
-		update_option(key_infscr_nav_selector, $navigation_selector);
+		update_option(key_infscr_nav_selector, esc_js($navigation_selector));
 
 		// update the post selector
 		$post_selector = $_POST[key_infscr_post_selector];
-		update_option(key_infscr_post_selector, $post_selector);
+		update_option(key_infscr_post_selector, esc_js($post_selector));
 
 		// update the next selector
 		$next_selector = $_POST[key_infscr_next_selector];
-		update_option(key_infscr_next_selector, $next_selector);
+		update_option(key_infscr_next_selector, esc_js($next_selector));
 
 
 		// update notification
@@ -440,7 +440,9 @@ table.infscroll-opttable dd { margin-bottom: 0 }
 				</th>
 				<td>
 					<?php
-						echo "<input name='".key_infscr_text."' id='".key_infscr_text."' value='".stripslashes(get_option(key_infscr_text))."' size='30' type='text'>\n";
+						echo "<textarea name='".key_infscr_text."' id='".key_infscr_text."' rows='2'  style='width: 95%;'>\n";
+						echo stripslashes(get_option(key_infscr_text));
+						echo "</textarea>\n";
 					?>
 				</td>
                 <td>
@@ -454,7 +456,9 @@ table.infscroll-opttable dd { margin-bottom: 0 }
 				</th>
 				<td>
 					<?php
-						echo '<input name="'.key_infscr_donetext.'" id="'.key_infscr_donetext.'" value="'.stripslashes(get_option(key_infscr_donetext)).'" size="30" type="text">';
+						echo "<textarea name='".key_infscr_donetext."' id='".key_infscr_donetext."' rows='2'  style='width: 95%;'>\n";
+						echo stripslashes(get_option(key_infscr_donetext));
+						echo "</textarea>\n";
 					?>
 				</td>
                 <td>

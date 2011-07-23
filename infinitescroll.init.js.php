@@ -1,14 +1,5 @@
 <?php
-/*
-Plugin Name: Infinite Scroll
-Version: 2.0b2.110716
-Plugin URI: http://www.infinite-scroll.com
-Description: Automatically loads the next page of posts into the bottom of the initial page. 
-Author: Beaver6813, dirkhaim, Paul Irish
-Author URI: http://www.infinite-scroll.com
-License   : http://creativecommons.org/licenses/GPL/2.0/
-*/
-define('infscr_version'		,	'2.0b2.110716');
+define('infscr_version'		,	'2.0b2.110723');
 
 header('Content-Type: application/javascript');
 require_once( '../../../wp-load.php' );
@@ -30,7 +21,11 @@ function outputLicense()
 */
 ";	
 	}
-
+function slashOnlyDouble($text)
+	{
+	return addcslashes(stripslashes($text), '"');
+	}
+	
 //Get pathParse and validate it.
 $error = false;
 if($pathInfo = unserialize(base64_decode($_GET['p'])))
@@ -54,8 +49,8 @@ else
 	$noscheme 			= parse_url(stripslashes(get_option("infscr_image")));
 	$loading_image		= $scheme.$noscheme['host'].$noscheme['path'];	
 	
-	$loading_text		= stripslashes(get_option("infscr_text"));
-	$donetext			= stripslashes(get_option("infscr_donetext"));
+	$loading_text		= slashOnlyDouble(get_option("infscr_text"));
+	$donetext			= slashOnlyDouble(get_option("infscr_donetext"));
 	$content_selector	= stripslashes(get_option("infscr_content_selector"));
 	$navigation_selector= stripslashes(get_option("infscr_nav_selector"));
 	$post_selector		= stripslashes(get_option("infscr_post_selector"));

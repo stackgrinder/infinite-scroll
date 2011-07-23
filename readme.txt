@@ -48,6 +48,11 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110723 =
+* Improved escaping on settings to allow greater flexibility.
+* Fixed issue with jQuery not loading if WP version is up to date.
+* Fixed issue with plugin showing twice on plugin list.
+
 = 2.0b2.110716 =
 * Moved init script from direct page insertion to seperate script.
 * Cleaned up unneeded declared constants.
