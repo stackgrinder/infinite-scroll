@@ -1,5 +1,5 @@
-﻿=== Plugin Name ===
-Contributors: paul.irish, dirkhaim, beaver6813
+﻿=== Infinite-Scroll ===
+Contributors: beaver6813, dirkhaim, paul.irish
 Donate link: http://www.infinite-scroll.com
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.7
