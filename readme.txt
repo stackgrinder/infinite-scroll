@@ -48,6 +48,16 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110818 =
+* Completely revamped admin panel adding more modular management
+* Added ability to center loading image
+* Added WYSIWYG editor to HTML allowed fields in admin panel
+* Updated Javascript callback to pass DOM for new elements added
+* Added Preset manager
+* Added ability to auto-fill selector fields from theme preset
+* Overhaul of underlying code, seperating out into classes to cut down
+on code processed (and hence load time) for the end-user.
+
 = 2.0b2.110723 =
 * Improved escaping on settings to allow greater flexibility.
 * Fixed issue with jQuery not loading if WP version is up to date.
