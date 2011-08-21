@@ -13,10 +13,10 @@ jQuery(document).ready(function($) {
 	});
 	$(".submit input[name=auto_fill]").click(function (event) {
 		event.preventDefault();
-		$("input[name=infscr_content_selector]").val($(this).siblings("input[name=auto_fill_content]").val());
-		$("input[name=infscr_post_selector]").val($(this).siblings("input[name=auto_fill_post]").val());
-		$("input[name=infscr_nav_selector]").val($(this).siblings("input[name=auto_fill_nav]").val());
-		$("input[name=infscr_next_selector]").val($(this).siblings("input[name=auto_fill_next]").val());
+		$(document.infinitescrollform["infscr_options[infscr_content_selector]"]).val($(this).siblings("input[name=auto_fill_content]").val());
+		$(document.infinitescrollform["infscr_options[infscr_post_selector]"]).val($(this).siblings("input[name=auto_fill_post]").val());
+		$(document.infinitescrollform["infscr_options[infscr_nav_selector]"]).val($(this).siblings("input[name=auto_fill_nav]").val());
+		$(document.infinitescrollform["infscr_options[infscr_next_selector]"]).val($(this).siblings("input[name=auto_fill_next]").val());
 		$('.infscroll-tab-selectors input[type=text]').animate({backgroundColor: "yellow"},50, function () {
 	jQuery('.infscroll-tab-selectors input[type=text]').animate({ backgroundColor: "white" }, 500);});
 	});

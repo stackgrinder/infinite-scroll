@@ -1,7 +1,26 @@
 <div class="infscroll-tab infscroll-tab-presets<?php echo infiniteScrollOptions::pageActive("presets","tab");?>">
-    	  <p>&nbsp;</p>
+    	  <p>For advanced users only. Generally you shouldn't need to use this.</p>
     <table class="editform infscroll-opttable" cellspacing="0" >
 		  <tbody>
+          <tr>
+				<th width="20%" >
+					<label for="themepresets">Add Preset:</label>
+				</th>
+				<td colspan="2">
+                <form action="options-general.php?page=wp_infinite_scroll.php&default=presets" method="post">
+                <table>
+                 <tr valign="top"><th scope="row">Theme Name</th><td><input type="text" value="<?php if(isset($_POST['preset_themename'])) echo $_POST['preset_themename']; else echo strtolower(get_current_theme());?>" size="40" name="preset_themename" id="preset_themename"></td></tr>
+                <tr valign="top"><th scope="row">Content Selector</th><td><input type="text" value="<?php if(isset($_POST['preset_content'])) echo $_POST['preset_content'];?>" size="40" name="preset_content" id="preset_content"></td></tr>
+                <tr valign="top"><th scope="row">Posts Selector</th><td><input type="text" value="<?php if(isset($_POST['preset_posts'])) echo $_POST['preset_posts'];?>" size="40" name="preset_posts" id="preset_posts"></td></tr>
+                <tr valign="top"><th scope="row">Navigation Selector</th><td><input type="text" value="<?php if(isset($_POST['preset_nav'])) echo $_POST['preset_nav'];?>" size="40" name="preset_nav" id="preset_next"></td></tr>
+                <tr valign="top"><th scope="row">Next Page Selector</th><td><input type="text" value="<?php if(isset($_POST['preset_next'])) echo $_POST['preset_next'];?>" size="40" name="preset_next" id="preset_next"></td></tr>
+                </table>
+                <p class="submit" style="text-align:left;">
+<input type='submit' name='preset_add' value='Add to Preset DB' /><br /><label for="preset_overwrite">Overwrite Existing Theme Preset: </label><input name="preset_overwrite" id="preset_overwrite" type="checkbox" value="1" />
+	</p>
+                </form>
+  			</td>
+			</tr>
           <tr>
 				<th width="20%" >
 					<label for="themepresets">Update Preset DB:</label>
@@ -42,7 +61,11 @@
 					<?php
 					//Will be quite a memory hog when the database gets larger
 					//TODO: Work on nosql style method of selecting ranges
-					$finalpresets = infiniteScroll::presetGetAll();
+					if(!empty($_GET['infpage'])&&((int) $_GET['infpage']) == $_GET['infpage']&&$_GET['infpage']>=0)
+						$infscr_preset_page = $_GET['infpage'];	
+					else
+						$infscr_preset_page = 1;
+					$finalpresets = infiniteScrollPresets::presetGetAll();
 					if($finalpresets[0]=='ERROR')
 						{
 						echo "<tr>

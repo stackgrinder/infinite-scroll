@@ -48,6 +48,10 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110821 =
+* Converted options pages to use Settings API
+* Added behavior selection (Manual triggering)
+
 = 2.0b2.110818 =
 * Completely revamped admin panel adding more modular management
 * Added ability to center loading image
