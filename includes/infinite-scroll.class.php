@@ -5,7 +5,7 @@ class infiniteScroll {
 static $Version, $Defaults, $PresetRepo, $PresetDB, $PresetRev;
 public function __construct()
 	{
-	self::$Version = '2.0b2.110821';
+	self::$Version = '2.0b2.110822';
 	self::$PresetRepo = 'http://plugins.svn.wordpress.org/infinite-scroll/branches/PresetDB/PresetDB.csv.php';
 	self::$PresetDB = WP_PLUGIN_DIR."/infinite-scroll/PresetDB.csv.php";
 	self::$PresetRev = WP_PLUGIN_DIR."/infinite-scroll/PresetDB.rev.php";
@@ -159,7 +159,7 @@ public static function trigger404()
 	$paged 	= (get_query_var('paged')) ? get_query_var('paged') : 1;
 	if (($paged && $paged > 1) && !have_posts())
 		{
-		header("HTTP/1.1 404 Not Found");
+		header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 		header("Status: 404 Not Found");
 		}	
 	}

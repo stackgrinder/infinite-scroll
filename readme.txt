@@ -48,6 +48,10 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110822 =
+* Removed registration/enqueuing script in favor of just enqueueing
+* Fixed bug/typo in compressed init script
+
 = 2.0b2.110821 =
 * Converted options pages to use Settings API
 * Added behavior selection (Manual triggering)

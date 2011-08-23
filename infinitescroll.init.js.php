@@ -1,8 +1,11 @@
 <?php
-header('Content-Type: application/javascript');
+ob_start();
 require_once( '../../../wp-load.php' );
 wp();
-	
+ob_clean();
+header($_SERVER["SERVER_PROTOCOL"]." 200 Ok");
+header("Status: 200");
+header('Content-Type: application/javascript');
 //Get pathParse and validate it.
 $error = false;
 if($pathInfo = unserialize(base64_decode($_GET['p'])))
@@ -101,7 +104,7 @@ else
 		if($behavior=='twitter')
 			echo file_get_contents("js/behaviors/manual-trigger.min.js");
 		echo 'function infinite_scroll_callback(newElements,data){'.$js_calls.'}
-jQuery(document).ready(function($){$("'.$content_selector.'").infinitescroll({debug:'.$debug.',loading:{img:"'.$loading_image.'",msgText:"'.$loading_text.'",finishedMsg:"'.$donetext.'"},state:{currPage:"'.$pathInfo[0][2].'"},behavior:"'.$behavior.'",nextSelector:"'.$next_selector.'",navSelector:"'.$navigation_selector.'",contentSelector:"'.$content_selector.'",itemSelector:"'.$post_selector.'",pathParse:["'.$pathInfo[0][0].'","'.$pathInfo[0][1].'"]},function(){window.setTimeout(infinite_scroll_callback(newElements,data),1);});';
+jQuery(document).ready(function($){$("'.$content_selector.'").infinitescroll({debug:'.$debug.',loading:{img:"'.$loading_image.'",msgText:"'.$loading_text.'",finishedMsg:"'.$donetext.'"},state:{currPage:"'.$pathInfo[0][2].'"},behavior:"'.$behavior.'",nextSelector:"'.$next_selector.'",navSelector:"'.$navigation_selector.'",contentSelector:"'.$content_selector.'",itemSelector:"'.$post_selector.'",pathParse:["'.$pathInfo[0][0].'","'.$pathInfo[0][1].'"]},function(newElements,data){window.setTimeout(infinite_scroll_callback(newElements,data),1);});';
 		if(isset($_GET['a']) && $_GET['a']==1)
 				echo '$("'.$content_selector.'").infinitescroll("pause");';
 		echo '});';
