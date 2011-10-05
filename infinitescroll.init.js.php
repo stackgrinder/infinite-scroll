@@ -64,9 +64,9 @@ else
 	echo infiniteScroll::showLicense();
 	if($debug=="true")
 		{
-		echo file_get_contents("js/jquery.infinitescroll.js");
+		readfile("js/jquery.infinitescroll.js");
 		if($behavior=='twitter')
-			echo file_get_contents("js/behaviors/manual-trigger.js");
+			readfile("js/behaviors/manual-trigger.js");
 		echo '//We leave a function outside the infinite-scroll area so that it works with older jQuery versions
 			function infinite_scroll_callback(newElements,data) {
 				'.$js_calls.'
@@ -90,7 +90,7 @@ else
 					contentSelector : "'.$content_selector.'",
 					itemSelector    : "'.$post_selector.'",
 					pathParse		: ["'.$pathInfo[0][0].'", "'.$pathInfo[0][1].'"]
-					}, function(newElements,data) { window.setTimeout(infinite_scroll_callback(newElements,data), 1); } );
+					}, function(newElements,data) { window.setTimeout(function(){infinite_scroll_callback(newElements,data)}, 1); } );
 					';
 			//If its on the admin page and the tab is not active by default, pause it!
 			if(isset($_GET['a']) && $_GET['a']==1)
@@ -100,11 +100,11 @@ else
 		}
 	else
 		{
-		echo file_get_contents("js/jquery.infinitescroll.min.js");
+		readfile("js/jquery.infinitescroll.min.js");
 		if($behavior=='twitter')
-			echo file_get_contents("js/behaviors/manual-trigger.min.js");
+			readfile("js/behaviors/manual-trigger.min.js");
 		echo 'function infinite_scroll_callback(newElements,data){'.$js_calls.'}
-jQuery(document).ready(function($){$("'.$content_selector.'").infinitescroll({debug:'.$debug.',loading:{img:"'.$loading_image.'",msgText:"'.$loading_text.'",finishedMsg:"'.$donetext.'"},state:{currPage:"'.$pathInfo[0][2].'"},behavior:"'.$behavior.'",nextSelector:"'.$next_selector.'",navSelector:"'.$navigation_selector.'",contentSelector:"'.$content_selector.'",itemSelector:"'.$post_selector.'",pathParse:["'.$pathInfo[0][0].'","'.$pathInfo[0][1].'"]},function(newElements,data){window.setTimeout(infinite_scroll_callback(newElements,data),1);});';
+jQuery(document).ready(function($){$("'.$content_selector.'").infinitescroll({debug:'.$debug.',loading:{img:"'.$loading_image.'",msgText:"'.$loading_text.'",finishedMsg:"'.$donetext.'"},state:{currPage:"'.$pathInfo[0][2].'"},behavior:"'.$behavior.'",nextSelector:"'.$next_selector.'",navSelector:"'.$navigation_selector.'",contentSelector:"'.$content_selector.'",itemSelector:"'.$post_selector.'",pathParse:["'.$pathInfo[0][0].'","'.$pathInfo[0][1].'"]},function(newElements,data){window.setTimeout(function(){infinite_scroll_callback(newElements,data)},1);});';
 		if(isset($_GET['a']) && $_GET['a']==1)
 				echo '$("'.$content_selector.'").infinitescroll("pause");';
 		echo '});';
