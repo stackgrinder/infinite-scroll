@@ -37,7 +37,7 @@
 					<label for="themepresets">Export Preset DB:</label>
 				</th>
 				<td>
-                <a href="<?php echo plugins_url('infinite-scroll')."/presetdb.php?do=export";?>" alt="Export Database" class="infscroll-preset-export button">Export Database</a>
+                <a href="<?php echo plugins_url('infinite-scroll')."/presetdb.php?do=export&r=".mt_rand();?>" alt="Export Database" class="infscroll-preset-export button">Export Database</a>
   			</td>
   			<td width="50%">
   			  <p>Exporting the preset database might be useful if you ever want to share your custom presets with someone else.</p>

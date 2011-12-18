@@ -45,7 +45,7 @@ public static function selectorsText()
 				</th>
 				<td>";
 	$presetinfo = infiniteScrollPresets::presetGet(strtolower(get_current_theme()));
-	if($presetinfo[0]=='Error')
+	if($presetinfo[0]=='ERROR')
 		{
 		if($presetinfo[1]=='Could not find preset for theme.')
 			echo "<img src=\"".site_url('/wp-includes/images/smilies/icon_cry.gif')."\" alt=\":-(\"/> We don't currently have a preset for your theme. You'll have to try and enter the right selectors manually using their description and default values.";	

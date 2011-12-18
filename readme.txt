@@ -3,7 +3,7 @@ Contributors: beaver6813, dirkhaim, paul.irish
 Donate link: http://www.infinite-scroll.com
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.7
-Tested up to: 3.2
+Tested up to: 3.3
 Stable tag: 2.0b
 
 Automatically append the next page of posts (via AJAX) to your page when a user scrolls to the bottom. 
@@ -48,6 +48,11 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.111218 =
+* Updated preset DB with basic themes
+* Made a few fixes in options/presets to prep for main release.
+* Changed hook used by 404 detection to template_redirect from wp.
+
 = 2.0b2.110822 =
 * Removed registration/enqueuing script in favor of just enqueueing
 * Fixed bug/typo in compressed init script

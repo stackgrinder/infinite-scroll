@@ -137,6 +137,7 @@ public static function presetExport()
 	{
 	if(file_exists(parent::$PresetDB))
 		{
+		header($_SERVER["SERVER_PROTOCOL"]." 200 OK");
     	header("Content-Description: Preset DB Export");
     	header("Content-Disposition: attachment; filename=PresetDB.csv.php");
    	 	header("Content-Type: text/csv");
