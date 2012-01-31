@@ -5,7 +5,7 @@ class infiniteScroll {
 static $Version, $Defaults, $PresetRepo, $PresetDB, $PresetRev;
 public function __construct()
 	{
-	self::$Version = '2.0b2.120111';
+	self::$Version = '2.0b2.120131';
 	self::$PresetRepo = 'http://plugins.svn.wordpress.org/infinite-scroll/branches/PresetDB/PresetDB.csv.php';
 	self::$PresetDB = WP_PLUGIN_DIR."/infinite-scroll/PresetDB.csv.php";
 	self::$PresetRev = WP_PLUGIN_DIR."/infinite-scroll/PresetDB.rev.php";

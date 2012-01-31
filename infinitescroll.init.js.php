@@ -51,12 +51,12 @@ else
 		$noscheme 			= parse_url(stripslashes($infscropts['infscr_image']));
 		$loading_text		= infiniteScroll::slashOnlyDouble($infscropts['infscr_text']);
 		$donetext			= infiniteScroll::slashOnlyDouble($infscropts['infscr_donetext']);
-		$content_selector	= stripslashes($infscropts['infscr_content_selector']);
-		$navigation_selector= stripslashes($infscropts['infscr_nav_selector']);
-		$post_selector		= stripslashes($infscropts['infscr_post_selector']);
-		$next_selector		= stripslashes($infscropts['infscr_next_selector']);
-		$js_calls			= stripslashes($infscropts['infscr_js_calls']);
-		$behavior			= stripslashes($infscropts['infscr_behavior']);
+		$content_selector	= stripslashes(html_entity_decode($infscropts['infscr_content_selector']));
+		$navigation_selector= stripslashes(html_entity_decode($infscropts['infscr_nav_selector']));
+		$post_selector		= stripslashes(html_entity_decode($infscropts['infscr_post_selector']));
+		$next_selector		= stripslashes(html_entity_decode($infscropts['infscr_next_selector']));
+		$js_calls			= stripslashes(html_entity_decode($infscropts['infscr_js_calls']));
+		$behavior			= stripslashes(html_entity_decode($infscropts['infscr_behavior']));
 		}
 	$loading_image		= $scheme.$noscheme['host'].$noscheme['path'];	
 	//Start Loading!

@@ -22,7 +22,7 @@ jQuery.extend(jQuery.infinitescroll.prototype,{
   
 		case 'done':
   
-			instance._showdonemsg();
+			this._showdonemsg();
 			return false;
   
 			break;
@@ -73,14 +73,15 @@ jQuery.extend(jQuery.infinitescroll.prototype,{
   
 	if (!opts.animate) opts.state.isDuringAjax = false; // once the call is done, we can allow it again.
   
-	callback(instance,data);
+	callback(this,data);
 	},
 	_setup_twitter: function infscr_setup_twitter () {
 		var opts = this.options,
 			instance = this;
-			
+		this._debug("Binding Manual Trigger..")
 		// Bind nextSelector link to retrieve
 		jQuery(opts.nextSelector).click(function(e) {
+			this._debug("Manual Trigger Clicked..")
 			if (e.which == 1 && !e.metaKey && !e.shiftKey) {
 				e.preventDefault();
 				instance.retrieve();
