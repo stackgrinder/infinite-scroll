@@ -78,10 +78,8 @@ jQuery.extend(jQuery.infinitescroll.prototype,{
 	_setup_twitter: function infscr_setup_twitter () {
 		var opts = this.options,
 			instance = this;
-		this._debug("Binding Manual Trigger..")
 		// Bind nextSelector link to retrieve
 		jQuery(opts.nextSelector).click(function(e) {
-			this._debug("Manual Trigger Clicked..")
 			if (e.which == 1 && !e.metaKey && !e.shiftKey) {
 				e.preventDefault();
 				instance.retrieve();

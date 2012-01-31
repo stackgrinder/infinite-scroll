@@ -102,22 +102,23 @@ public static function addjQuery()
 
 public static function addStyle()
 	{
-	switch(get_option('infscr_image_align'))
+	$options = get_option('infscr_options');
+	switch($options['infscr_image_align'])
 		{
-		default:
-		case 0:
-			$align = "left";
-		break;
 		case 1:
 			$align = "center";
 		break;
 		case 2:
 			$align = "right";
 		break;
+		default:
+		case 0:
+			$align = "left";
+		break;
 		}
 	echo "<!-- Infinite-Scroll Style -->
 	<style type=\"text/css\">
-	 #infscr-loading img { text-align: $align; }
+	 #infscr-loading { text-align: $align; }
 	</style>\r\n";
 	return true;	
 	}
