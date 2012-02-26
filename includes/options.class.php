@@ -202,7 +202,7 @@ public static function addOptPage()
 			$overwrite = 1;
 		else
 			$overwrite = 0;
-		$addresult = infiniteScrollPresets::presetAdd($_POST['preset_themename'],$_POST['preset_content'],$_POST['preset_nav'],$_POST['preset_posts'],$_POST['preset_next'],$overwrite);	
+		$addresult = infiniteScrollPresets::presetAdd(esc_attr($_POST['preset_themename']),esc_attr($_POST['preset_content']),esc_attr($_POST['preset_nav']),esc_attr($_POST['preset_posts']),esc_attr($_POST['preset_next']),$overwrite);	
 		if($addresult[0]=='OK')
 			{
 			echo "<div class='updated'><p><strong>{$addresult[1]}</strong></p></div>";
