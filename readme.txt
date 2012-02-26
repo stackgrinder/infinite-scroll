@@ -48,6 +48,15 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.120226 =
+* Improved preset security checking.
+
+= 2.0b2.120131 =
+* Fixed non-alpha character encoding in selector settings.
+* Fixed issue in manual-trigger.js relating to instance typos.
+* Fixed issue in manual-trigger.min.js, jscompress thought it was cool to remove semi-colons...
+* Fixed loading image alignment issue.
+
 = 2.0b2.120111 =
 * Added infinite_scroll_load_override filter to manually force infinite-scroll to load on a page.
 * Thanks to https://github.com/samargulies for the above patch.
