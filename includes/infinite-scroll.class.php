@@ -264,7 +264,7 @@ public static function slashOnlyDouble($text)
 	return addcslashes(stripslashes($text), '"');
 	}
 public static function sanitizeURLPart($input) {
-    return preg_replace("/[^A-Za-z0-9\-\._~:\/\?#@!\$&'()*\+,;=%]/", '', $input);
+    return preg_replace("/[^A-Za-z0-9\-\._~:\/\?#@!\$&'()|*\+,;=%]/", '', $input);
     }
 
 }
