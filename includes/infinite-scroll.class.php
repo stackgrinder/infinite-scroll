@@ -235,6 +235,7 @@ public static function getPagenumLink()
 		$request = ( ( !empty( $request ) ) ? trailingslashit( $request ) : $request ) . user_trailingslashit( $wp_rewrite->pagination_base . "/" . "|||INF-SPLITHERE|||", 'paged' );
 		$result = $base . $request . $query_string;
 	}
+    $result = self::sanitizeURLPart($result);
 	$result = apply_filters('get_pagenum_link', $result);
 	return explode("|||INF-SPLITHERE|||",$result);
 	}
@@ -262,5 +263,8 @@ public static function slashOnlyDouble($text)
 	{
 	return addcslashes(stripslashes($text), '"');
 	}
+public static function sanitizeURLPart($input) {
+    return preg_replace("/[^A-Za-z0-9\-\._~:\/\?#@!\$&'()*\+,;=%]/", '', $input);
+    }
 
 }

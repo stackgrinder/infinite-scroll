@@ -1,5 +1,5 @@
 ﻿=== Infinite-Scroll ===
-Contributors: beaver6813, dirkhaim, paul.irish
+Contributors: Beaver6813, dirkhaim, paul.irish
 Donate link: http://www.infinite-scroll.com
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.7
@@ -48,6 +48,9 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.121120 =
+* Fixed potential XSS vulnerability, thanks to cloud9 for finding.
+
 = 2.0b2.120226 =
 * Improved preset security checking.
 

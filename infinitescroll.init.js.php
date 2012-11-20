@@ -12,6 +12,15 @@ if($pathInfo = unserialize(base64_decode($_GET['p'])))
 	{
 	if(empty($pathInfo[0])||count($pathInfo[0])<2||empty($pathInfo[1])||$pathInfo[1]!=md5(NONCE_KEY.$pathInfo[0][0]."infscr".$pathInfo[0][1].infiniteScroll::$Version.$pathInfo[0][2]))
 		$error = true;		
+    else {
+        //Do some data validation
+        //The main validation should have been done by the calling page. 
+        //We'll do some basic validation again to filter out non-URL safe characters.
+        $pathInfo[0][0] = infiniteScroll::sanitizeURLPart($pathInfo[0][0]);
+        $pathInfo[0][1] = infiniteScroll::sanitizeURLPart($pathInfo[0][1]);
+        //Ensure given current page is an integer
+        $pathInfo[0][2] = preg_replace('/[^0-9]/', '', $pathInfo[0][2]);
+        }
 	}
 else
 	$error = true;
