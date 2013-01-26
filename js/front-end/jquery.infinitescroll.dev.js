@@ -61,7 +61,8 @@
         infid: 0, //Instance ID
         pixelsFromNavToBottom: undefined,
         path: undefined, // Either parts of a URL as an array (e.g. ["/page/", "/"] or a function that takes in the page number and returns a URL
-		prefill: false // When the document is smaller than the window, load data until the document is larger or links are exhausted
+		prefill: false, // When the document is smaller than the window, load data until the document is larger or links are exhausted
+        maxPage: undefined // to manually control maximum page (when maxPage is undefined, maximum page limitation is not work)
 	};
 
     $.infinitescroll.prototype = {
@@ -162,13 +163,13 @@
             };
 
 			// callback loading
-            opts.callback = function(instance,data) {
+            opts.callback = function(instance, data, url) {
                 if (!!opts.behavior && instance['_callback_'+opts.behavior] !== undefined) {
-                    instance['_callback_'+opts.behavior].call($(opts.contentSelector)[0], data);
+                    instance['_callback_'+opts.behavior].call($(opts.contentSelector)[0], data, url);
                 }
 
                 if (callback) {
-                    callback.call($(opts.contentSelector)[0], data, opts);
+                    callback.call($(opts.contentSelector)[0], data, opts, url);
                 }
 
 				if (opts.prefill) {
@@ -320,8 +321,7 @@
         },
 
         // Load Callback
-        _loadcallback: function infscr_loadcallback(box, data) {
-
+        _loadcallback: function infscr_loadcallback(box, data, url) {
             var opts = this.options,
             callback = this.options.callback, // GLOBAL OBJECT FOR CALLBACK
             result = (opts.state.isDone) ? 'done' : (!opts.appendCallback) ? 'no-append' : 'append',
@@ -383,7 +383,7 @@
 				opts.state.isDuringAjax = false;
 			}
 
-            callback(this,data);
+            callback(this, data, url);
 
 			if (opts.prefill) {
 				this._prefill();
@@ -510,10 +510,9 @@
 
         // Destroy current instance of plugin
         destroy: function infscr_destroy() {
-
             this.options.state.isDestroyed = true;
+			this.options.loading.finished();
             return this._error('destroy');
-
         },
 
         // Set pause value to false
@@ -534,6 +533,12 @@
 			// increment the URL bit. e.g. /page/3/
 			opts.state.currPage++;
 
+            // Manually control maximum page 
+            if ( opts.maxPage != undefined && opts.state.currPage > opts.maxPage ){
+                this.destroy();
+                return;
+            }
+
 			// if we're dealing with a table we can't use DIVs
 			box = $(opts.contentSelector).is('table') ? $('<tbody/>') : $('<div/>');
 
@@ -547,10 +552,9 @@
 
 			switch (method) {
 				case 'html+callback':
-
 					instance._debug('Using HTML via .load() method');
 					box.load(desturl + ' ' + opts.itemSelector, undefined, function infscr_ajax_callback(responseText) {
-						instance._loadcallback(box, responseText);
+						instance._loadcallback(box, responseText, desturl);
 					});
 
 					break;
@@ -564,7 +568,7 @@
 						complete: function infscr_ajax_callback(jqXHR, textStatus) {
 							condition = (typeof (jqXHR.isResolved) !== 'undefined') ? (jqXHR.isResolved()) : (textStatus === "success" || textStatus === "notmodified");
 							if (condition) {
-								instance._loadcallback(box, jqXHR.responseText);
+								instance._loadcallback(box, jqXHR.responseText, desturl);
 							} else {
 								instance._error('end');
 							}
@@ -598,7 +602,7 @@
 							} else {
 								// if appendCallback is false, we will pass in the JSON object. you should handle it yourself in your callback.
 								if (condition) {
-									instance._loadcallback(box, data);
+									instance._loadcallback(box, data, desturl);
 								} else {
 									instance._error('end');
 								}
@@ -793,7 +797,7 @@
 
             if (scrollTimeout) { clearTimeout(scrollTimeout); }
             scrollTimeout = setTimeout(function () {
-                $.event.handle.apply(context, args);
+                $(context).trigger('smartscroll', args);
             }, execAsap === "execAsap" ? 0 : 100);
         }
     };

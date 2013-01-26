@@ -2,10 +2,13 @@
 /*
 Plugin Name: Infinite Scroll
 Description: Automatically loads the next page of posts into the bottom of the initial page.
-Version: 2.6.1
+Version: 2.6.2
 Author: Beaver6813, dirkhaim, Paul Irish, benbalter, Glenn Nelson
 Author URI:
 License: GPL3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: infinite-scroll
+Domain Path: /languages/
 */
 
 /*  Copyright 2008-2012 Beaver6813, dirkhaim, Paul Irish, Benjamin J. Balter, Glenn Nelson
@@ -25,7 +28,7 @@ License: GPL3
  *
  *  @copyright 2008-2012
  *  @license GPL v3
- *  @version 2.6.1
+ *  @version 2.6.2
  *  @package Infinite Scroll
  *  @author Beaver6813, dirkhaim, Paul Irish, Benjamin J. Balter, Glenn Nelson
  */
@@ -93,8 +96,8 @@ class Infinite_Scroll {
 		//option keys map to javascript options and are passed directly via wp_localize_script
 		$this->options->defaults = array(
 			'loading' => array(
-				'msgText'         => __( '<em>Loading...</em>', 'infinite-scroll' ),
-				'finishedMsg'     => __( '<em>No additional posts.</em>', 'infinite-scroll' ),
+				'msgText'         => '<em>' . __( 'Loading...', 'infinite-scroll' ) . '</em>',
+				'finishedMsg'     => '<em>' . __( 'No additional posts.', 'infinite-scroll' ) . '</em>',
 				'img'             => plugins_url( 'img/ajax-loader.gif', __FILE__ )
 			),
 			'nextSelector'    => '#nav-below a:first',
@@ -222,6 +225,13 @@ class Infinite_Scroll {
 
 				$new[ $to ] = $old[ 'infscr_' . $from ];
 
+			}
+
+			//pre 2.5 we html encoded selectors, we don't do this anymore
+			foreach ( array( 'contentSelector', 'itemSelector', 'navSelector', 'nextSelector' ) as $field ) {
+				if ( isset( $new[$field] ) ) {
+					$new[$field] = html_entity_decode($new[$field]);
+				}
 			}
 
 			//regardless of which upgrade we did, move loading string to array
