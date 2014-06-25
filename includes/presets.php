@@ -444,10 +444,16 @@ class Infinite_Scroll_Presets {
 			$lineObj = new stdClass;
 
 			foreach ( $this->keys as $id => $key )
-				$lineObj->$key = $line[ $id ];	
-
-			$presets[ $lineObj->theme ] = $lineObj;
-
+			{
+				if(isset($line[ $id ]))
+				{
+					$lineObj->$key = $line[ $id ];
+				}
+			}
+			if(isset($lineObj->theme))
+			{
+				$presets[ $lineObj->theme ] = $lineObj;
+			}
 		}
 
 		return $presets;
