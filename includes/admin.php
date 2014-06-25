@@ -114,7 +114,7 @@ class Infinite_Scroll_Admin {
 
 		//3.3
 		if ( function_exists( 'wp_editor' ) )
-			wp_editor( $this->parent->options->loading[ $field ], "infinite_scroll[loading][{$field}]", array( 'media_buttons' => false, 'textarea_rows' => 5, 'teeny' => true ) );
+			wp_editor( $this->parent->options->loading[ $field ], "infinite_scroll_loading_".$field, array( 'media_buttons' => false, 'textarea_rows' => 5, 'teeny' => true, 'textarea_name' => "infinite_scroll[loading][{$field}]" ) );
 		
 		//3.2
 		else
